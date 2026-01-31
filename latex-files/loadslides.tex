@@ -18,6 +18,7 @@
 
 
 \usepackage{styles/elegantmacros}
+\usepackage{graphicx}
 \usefolder{styles}
 \usetheme[style=lecture]{elegant}
 
@@ -103,5 +104,15 @@
 \makeatletter
 \def\munderbar#1{\underline{\sbox\tw@{$#1$}\dp\tw@\z@\box\tw@}}
 \makeatother
+
+\setbeamertemplate{footline}{
+\leavevmode%
+\hbox{%
+\begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,right]{author in head/foot}%
+\usebeamerfont{author in head/foot}
+\insertframenumber{} / \inserttotalframenumber\hspace{1em}
+\end{beamercolorbox}}%
+}
+
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

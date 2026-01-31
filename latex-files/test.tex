@@ -1,0 +1,273 @@
+\documentclass[
+11pt,notheorems,hyperref={pdfauthor=whatever}
+]{beamer}
+
+\input{loadslides.tex}
+
+% ---- Structured Table of Contents ----
+\setcounter{tocdepth}{2} % show sections under parts
+\setbeamertemplate{part in toc}[parts numbered]
+\setbeamertemplate{section in toc}[sections numbered]
+
+% Remove custom hack that breaks TOC
+% \makeatletter
+% \def\beamer@sectionintoc#1#2#3#4#5{}
+% \makeatother
+
+\title[Independent Component Analysis]{Independent Component Analysis}
+\subtitle{Course: Mathematical Algorithms for Artificial Intelligence}
+
+\author[Yashpreet Goyal et al.]{
+Yashpreet Goyal \and
+Priyansh Abhishek Poddar \and
+Yash Sharma \and
+Shubhaditya B. Bechan
+}
+
+\institute{
+Department of Artificial Intelligence and Machine Learning \\
+R.V. College of Engineering, Bengaluru
+}
+
+\date{\today}
+
+\begin{document}
+% Force Beamer to register parts/sections in TOC
+\beamerdefaultoverlayspecification{}
+
+{
+\setbeamertemplate{footline}{} 
+\begin{frame}
+  \titlepage
+\end{frame}
+}
+\addtocounter{framenumber}{-1}
+
+
+% ------------------ Visual Motivation ------------------
+\section{Visual Motivation}
+
+
+\begin{frame}{Steganography}
+    \centering
+    \vfill
+    \includegraphics[height=0.72\textheight,keepaspectratio]{mixed2.png}
+    \vspace{0.6em}
+    
+    {\small Look at this image and tell what you can see?}
+    \vfill
+\end{frame}
+
+\begin{frame}{Goal: Recover Independent Sources}
+    \centering
+    \vfill
+    \includegraphics[height=0.72\textheight,keepaspectratio]{ica_comparison.png}
+    \vspace{0.6em}
+    
+    {\small We actually have hidden information in that simple looking image}
+    \vfill
+\end{frame}
+
+% ------------------ Parts & Sections ------------------
+\part{Independent Component Analysis}
+\section{Introduction to ICA}
+\begin{frame}{The Cocktail Party Problem}
+\begin{itemize}
+\item Multiple unknown source signals are mixed together
+\item We observe only the mixtures
+\item Goal: recover the original independent sources
+\end{itemize}
+
+\pause
+\begin{block}{Key Idea}
+Blind Source Separation using statistical independence
+\end{block}
+\end{frame}
+
+\begin{frame}{What is PCA?}
+\begin{block}{Principal Component Analysis (PCA)}
+PCA is a dimensionality reduction technique that reduces the number of features in a dataset while preserving the most important information.
+\end{block}
+
+
+\pause
+
+
+It transforms complex datasets by converting correlated variables into a smaller set of uncorrelated components called principal components.
+
+
+\pause
+
+
+\begin{alertblock}{Key Limitation for ICA Problems}
+PCA removes second-order correlations, but does not ensure statistical independence — which is required for source separation.
+\end{alertblock}
+\end{frame}
+
+
+\begin{frame}{What is Independent Component Analysis (ICA)?}
+\begin{block}{Independent Component Analysis (ICA)}
+Independent Component Analysis (ICA) is a technique used to separate mixed signals into their independent, non-Gaussian components.
+\end{block}
+
+
+\pause
+
+
+Its aim is to find a linear transformation of the observed data that maximizes statistical independence among the recovered components.
+
+
+\pause
+
+
+\begin{alertblock}{Core Idea}
+Unlike PCA, ICA looks beyond correlation and uses higher-order statistics to achieve true source separation.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Why ICA is Non-Trivial}
+\begin{itemize}
+\item Mixing matrix $A$ is unknown
+\item Source distributions are unknown
+\item Only assumption: statistical independence
+\end{itemize}
+\end{frame}
+
+\part{Mathematical Formulation}
+\section{Linear Mixing Model}
+\begin{frame}
+We assume observed signals are linear mixtures of independent sources.
+
+\begin{equation}
+\mathbf{x}(t) = A \mathbf{s}(t)
+\end{equation}
+
+\begin{itemize}
+\item $\mathbf{s}(t)$ — unknown source vector
+\item $A$ — unknown mixing matrix
+\item $\mathbf{x}(t)$ — observed mixtures
+\end{itemize}
+
+\pause
+Goal: Estimate an unmixing matrix $W$ such that
+\begin{equation}
+\mathbf{y}(t) = W \mathbf{x}(t) \approx \mathbf{s}(t)
+\end{equation}
+\end{frame}
+
+\section{ICA Assumptions}
+\begin{frame}
+ICA relies on three main assumptions:
+
+\begin{enumerate}
+    \item Sources are statistically independent
+    \item At most one source is Gaussian
+    \item Mixing process is linear and stationary
+\end{enumerate}
+
+\pause
+\begin{alertblock}{Why Non-Gaussianity Matters}
+Gaussian variables are fully described by mean and variance.  
+Independence cannot be identified using only second-order statistics.
+\end{alertblock}
+\end{frame}
+
+\section{ICA vs PCA}
+
+
+\begin{frame}{PCA vs ICA Comparison}
+\centering
+\vfill
+\includegraphics[width=\linewidth,height=0.75\textheight,keepaspectratio]{pca-vs-isa.png}\vfill
+\end{frame}\section{Non-Gaussianity Principle}
+\begin{frame}
+\begin{block}{Central Limit Theorem Insight}
+A sum of independent random variables is more Gaussian than the original variables.
+\end{block}
+
+\pause
+Therefore:
+\begin{itemize}
+    \item Mixed signals are more Gaussian
+    \item Original sources are maximally non-Gaussian
+\end{itemize}
+
+ICA finds directions that maximize non-Gaussianity.
+\end{frame}
+
+\section{FastICA Algorithm}
+\begin{frame}
+\begin{enumerate}
+    \item Center the data (zero mean)
+    \item Whiten the data (remove correlations)
+    \item Core Principles of ICA
+    \item Maximizing non Gaussianity using Kurtosis and Negentropy
+    \item Repeat until convergence.
+\end{enumerate}
+\end{frame}
+
+
+\section{Measuring Non-Gaussianity}
+\begin{frame}{Kurtosis}
+\begin{equation}
+\text{kurt}(y) = \mathbb{E}[y^4] - 3(\mathbb{E}[y^2])^2
+\end{equation}
+\begin{itemize}
+    \item Zero for Gaussian variables
+    \item Non-zero indicates non-Gaussianity
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Negentropy}
+\begin{equation}
+J(y) = H(y_{\text{gauss}}) - H(y)
+\end{equation}
+\begin{itemize}
+    \item Based on information theory
+    \item Always non-negative
+    \item Zero only for Gaussian distributions
+\end{itemize}
+\end{frame}
+
+
+\part{Applications}
+\section{Applications of ICA}
+\begin{frame}
+\begin{itemize}
+    \item Blind source separation (audio signals)
+    \item EEG / MEG brain signal analysis
+    \item Financial time-series separation
+    \item Image feature extraction
+\end{itemize}
+\end{frame}
+
+\section{Limitations}
+\begin{frame}
+\begin{itemize}
+    \item Cannot determine scaling or order of sources
+    \item Fails if multiple Gaussian sources exist
+    \item Sensitive to noise and model mismatch
+\end{itemize}
+\end{frame}
+
+\part{Conclusion}
+\section{Summary}
+\begin{frame}
+\begin{itemize}
+    \item ICA separates mixed signals using independence
+    \item Relies on higher-order statistics
+    \item Key idea: maximize non-Gaussianity
+    \item Widely used in signal processing and ML
+\end{itemize}
+\end{frame}
+
+\setbeamertemplate{footline}{
+\leavevmode%
+\hbox{%
+\begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,right]{author in head/foot}%
+\usebeamerfont{author in head/foot}
+\insertframenumber{} / \inserttotalframenumber\hspace{1em}
+\end{beamercolorbox}}%
+}
+
+\end{document}

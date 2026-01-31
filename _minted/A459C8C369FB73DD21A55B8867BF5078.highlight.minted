@@ -1,8 +1,0 @@
-\begin{MintedVerbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
-\PYG{c+cm}{/*}
-\PYG{c+cm}{Defined as $\pi=\lim_{n\to\infty}\frac{P_n}{d}$ where $P$ is the perimeter}
-\PYG{c+cm}{of an $n$\PYGZhy{}sided regular polygon circumscribing a}
-\PYG{c+cm}{circle of diameter $d$.}
-\PYG{c+cm}{*/}
-\PYG{k}{const}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{pi}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{.}
-\end{MintedVerbatim}
