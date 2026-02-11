@@ -1,0 +1,48 @@
+{
+  "name": "ICA Sound Separation Laboratory",
+  "version": "1.0.0",
+  "description": "Browser-based Independent Component Analysis laboratory for sound mixing and separation",
+  "presetSounds": [
+    {
+      "id": "sine440",
+      "name": "Pure Sine 440Hz",
+      "audioPath": "assets/sounds/sine440.wav",
+      "thumbnailPath": "assets/thumbnails/sine.svg",
+      "type": "synthetic"
+    },
+    {
+      "id": "chirp",
+      "name": "Chirp Signal",
+      "audioPath": "assets/sounds/chirp.wav",
+      "thumbnailPath": "assets/thumbnails/chirp.svg",
+      "type": "synthetic"
+    },
+    {
+      "id": "square",
+      "name": "Square Wave",
+      "audioPath": "assets/sounds/square.wav",
+      "thumbnailPath": "assets/thumbnails/square.svg",
+      "type": "synthetic"
+    },
+    {
+      "id": "noise",
+      "name": "White Noise",
+      "audioPath": "assets/sounds/noise.wav",
+      "thumbnailPath": "assets/thumbnails/noise.svg",
+      "type": "synthetic"
+    }
+  ],
+  "settings": {
+    "maxDuration": 20,
+    "sampleRate": 16000,
+    "validationThresholds": {
+      "nearlyGaussian": 0.1,
+      "weaklyNonGaussian": 0.5
+    },
+    "icaSettings": {
+      "maxIterations": 1000,
+      "tolerance": 1e-6,
+      "jadeMaxSources": 6
+    }
+  }
+}

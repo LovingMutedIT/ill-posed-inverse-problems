@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICA Sound Separation Laboratory</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <span class="title-main">ICA Laboratory</span>
+                    <span class="title-sub">Independent Component Analysis & Signal Separation</span>
+                </h1>
+                <div class="header-controls">
+                    <button id="resetBtn" class="btn btn-reset" disabled>
+                        <span class="btn-icon">⟲</span>
+                        <span>Reset System</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Sound Library Section -->
+            <section class="section" id="soundLibrarySection">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-number">01</span>
+                        Sound Library
+                    </h2>
+                    <div class="section-actions">
+                        <label for="fileUpload" class="btn btn-secondary">
+                            <span class="btn-icon">+</span>
+                            <span>Upload Audio</span>
+                            <input type="file" id="fileUpload" accept="audio/*" multiple hidden>
+                        </label>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="soundGrid" class="sound-grid"></div>
+                    <div id="uploadedSoundsGrid" class="sound-grid uploaded-grid"></div>
+                </div>
+                <div class="section-footer">
+                    <div id="selectionStatus" class="status-message">
+                        <span class="status-label">Selected:</span>
+                        <span id="selectedCount">0</span> sources
+                    </div>
+                </div>
+            </section>
+
+            <!-- Algorithm Selection Section -->
+            <section class="section" id="algorithmSection">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-number">02</span>
+                        Algorithm Configuration
+                    </h2>
+                </div>
+                <div class="section-content">
+                    <div class="algorithm-selector">
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="algorithm" value="fastica" checked>
+                                <span class="radio-label">
+                                    <strong>Symmetric FastICA</strong>
+                                    <small>Efficient negentropy-based separation · O(n²N) complexity</small>
+                                </span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="algorithm" value="jade">
+                                <span class="radio-label">
+                                    <strong>JADE (Cumulant-Based)</strong>
+                                    <small>Fourth-order cumulant diagonalization · O(n⁴) complexity · Limit ≤6 sources</small>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="algorithmWarning" class="warning-message" style="display: none;">
+                        <span class="warning-icon">⚠</span>
+                        <span>JADE algorithm has high computational complexity for >6 sources. Consider using FastICA.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mixing Section -->
+            <section class="section" id="mixingSection">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-number">03</span>
+                        Signal Mixing
+                    </h2>
+                    <div class="section-actions">
+                        <button id="mixBtn" class="btn btn-primary" disabled>
+                            <span class="btn-icon">⊗</span>
+                            <span>Mix Signals</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="mixingStatus" class="status-panel">
+                        <p class="status-text">Select at least 2 non-Gaussian sources to begin mixing.</p>
+                    </div>
+                    <div id="mixedSignalsContainer" class="signals-container" style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- Separation Section -->
+            <section class="section" id="separationSection">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-number">04</span>
+                        ICA Separation
+                    </h2>
+                    <div class="section-actions">
+                        <button id="separateBtn" class="btn btn-primary" disabled>
+                            <span class="btn-icon">⊕</span>
+                            <span>Separate Sources</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="separationStatus" class="status-panel">
+                        <p class="status-text">Mix signals first to enable separation.</p>
+                    </div>
+                    <div id="separationProgress" class="progress-container" style="display: none;">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <p id="progressText" class="progress-text">Initializing ICA...</p>
+                    </div>
+                    <div id="separatedSignalsContainer" class="signals-container" style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- Validation Messages -->
+            <div id="validationMessages" class="validation-container"></div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-text">
+                Browser-based ICA implementation · No server processing · 
+                <a href="https://github.com" target="_blank">View Source</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
